@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b42bb4b2-3094-4ee8-8aa8-d5336437ce82" >
+		<http:listener-connection host="0.0.0.0" port="8061" />
+	</http:listener-config>
+	<flow name="helloworldFlow" doc:id="ec634760-5dd5-4db8-9469-77844718c5b1" >
+		<http:listener doc:name="helloWorld" doc:id="855c1050-0145-4bb4-be88-38b84113da3d" config-ref="HTTP_Listener_config" path="/hello"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c09981f0-ddde-4417-867f-e42e55a857b7" message='#["Started FLow "]'/>
+		<ee:transform doc:name="Transform Message" doc:id="13e0bbc5-b6a2-4cc0-be98-4ba8c6ccf4f3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Hello World for first git hub repo"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="478c0aef-4d86-49a4-babb-2de0cefa89e7" message='#["Flow ended"]'/>
+	</flow>
+</mule>
